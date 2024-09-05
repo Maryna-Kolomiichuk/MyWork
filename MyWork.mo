@@ -105,13 +105,22 @@ package MyWork "My description"
         annotation (Line(points={{64,0},{100,0}}, color={0,0,0}));
       connect(signalVoltage.v, realInput)
         annotation (Line(points={{-62,0},{-120,0}}, color={0,0,127}));
-      annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
-            coordinateSystem(preserveAspectRatio=false)));
+      annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={
+              Rectangle(
+              extent={{-100,60},{100,-60}},
+              lineColor={0,0,0},
+              fillColor={238,46,47},
+              fillPattern=FillPattern.HorizontalCylinder), Polygon(
+              points={{-80,-100},{-42,-60},{38,-60},{80,-100},{-80,-100}},
+              lineColor={0,0,0},
+              fillPattern=FillPattern.HorizontalCylinder,
+              fillColor={0,0,0})}), Diagram(coordinateSystem(
+              preserveAspectRatio=false)));
     end Motor;
 
     model MotorDrive
       Motor motor
-        annotation (Placement(transformation(extent={{-12,32},{8,46}})));
+        annotation (Placement(transformation(extent={{-12,30},{6,48}})));
       Modelica.Blocks.Sources.Step step(
         height=1,
         offset=0.5,
@@ -136,9 +145,9 @@ package MyWork "My description"
       connect(feedback.y, PID.u)
         annotation (Line(points={{-52.9,39},{-41.4,39}}, color={0,0,127}));
       connect(PID.y, motor.realInput)
-        annotation (Line(points={{-25.3,39},{-14,39}}, color={0,0,127}));
+        annotation (Line(points={{-25.3,39},{-13.8,39}}, color={0,0,127}));
       connect(motor.flange_b, idealGear.flange_a)
-        annotation (Line(points={{8,39},{20,39}}, color={0,0,0}));
+        annotation (Line(points={{6,39},{20,39}}, color={0,0,0}));
       connect(idealGear.flange_b, inertia.flange_a)
         annotation (Line(points={{38,39},{54,39}}, color={0,0,0}));
       connect(inertia.flange_b, angleSensor.flange)
