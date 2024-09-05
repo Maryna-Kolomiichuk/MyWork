@@ -64,11 +64,11 @@ package MyWork "My description"
   package Tutorial2
 
     model Motor
-      Modelica.Mechanics.Rotational.Components.Inertia inertia
+      Modelica.Mechanics.Rotational.Components.Inertia inertia(J=0.001)
         annotation (Placement(transformation(extent={{44,-10},{64,10}})));
-      Modelica.Electrical.Analog.Basic.Resistor resistor
+      Modelica.Electrical.Analog.Basic.Resistor resistor(R=0.5)
         annotation (Placement(transformation(extent={{-38,10},{-18,30}})));
-      Modelica.Electrical.Analog.Basic.Inductor inductor
+      Modelica.Electrical.Analog.Basic.Inductor inductor(L=0.05)
         annotation (Placement(transformation(extent={{-6,10},{14,30}})));
       Modelica.Electrical.Analog.Basic.Ground ground
         annotation (Placement(transformation(extent={{-60,-54},{-40,-34}})));
@@ -112,15 +112,18 @@ package MyWork "My description"
     model MotorDrive
       Motor motor
         annotation (Placement(transformation(extent={{-12,32},{8,46}})));
-      Modelica.Blocks.Sources.Step step
+      Modelica.Blocks.Sources.Step step(
+        height=1,
+        offset=0.5,
+        startTime=5)
         annotation (Placement(transformation(extent={{-96,32},{-82,46}})));
-      Modelica.Blocks.Continuous.PID PID
+      Modelica.Blocks.Continuous.PID PID(k=100, Ti=1)
         annotation (Placement(transformation(extent={{-40,32},{-26,46}})));
       Modelica.Blocks.Math.Feedback feedback
         annotation (Placement(transformation(extent={{-70,30},{-52,48}})));
-      Modelica.Mechanics.Rotational.Components.IdealGear idealGear
+      Modelica.Mechanics.Rotational.Components.IdealGear idealGear(ratio=100)
         annotation (Placement(transformation(extent={{20,30},{38,48}})));
-      Modelica.Mechanics.Rotational.Components.Inertia inertia
+      Modelica.Mechanics.Rotational.Components.Inertia inertia(J=5)
         annotation (Placement(transformation(extent={{54,30},{72,48}})));
       Modelica.Mechanics.Rotational.Sensors.AngleSensor angleSensor annotation
         (Placement(transformation(
@@ -142,8 +145,10 @@ package MyWork "My description"
         annotation (Line(points={{72,39},{86,39},{86,30}}, color={0,0,0}));
       connect(feedback.u2, angleSensor.phi) annotation (Line(points={{-61,31.8},
               {-61,0},{86,0},{86,9}}, color={0,0,127}));
-      annotation (Icon(coordinateSystem(preserveAspectRatio=false)), Diagram(
-            coordinateSystem(preserveAspectRatio=false)));
+      annotation (
+        Icon(coordinateSystem(preserveAspectRatio=false)),
+        Diagram(coordinateSystem(preserveAspectRatio=false)),
+        experiment(StopTime=10));
     end MotorDrive;
   end Tutorial2;
   annotation (uses(Modelica(version="4.0.0")));
