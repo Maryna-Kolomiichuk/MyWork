@@ -134,8 +134,8 @@ package MyWork "My description"
         annotation (Placement(transformation(extent={{20,30},{38,48}})));
       Modelica.Mechanics.Rotational.Components.Inertia inertia(J=5)
         annotation (Placement(transformation(extent={{54,30},{72,48}})));
-      Modelica.Mechanics.Rotational.Sensors.AngleSensor angleSensor annotation
-        (Placement(transformation(
+      Modelica.Mechanics.Rotational.Sensors.AngleSensor angleSensor annotation (
+         Placement(transformation(
             extent={{-10,-10},{10,10}},
             rotation=270,
             origin={86,20})));
@@ -160,5 +160,85 @@ package MyWork "My description"
         experiment(StopTime=10));
     end MotorDrive;
   end Tutorial2;
+
+  package Tutorial3
+    package Components
+      model Machine
+        Modelica.Mechanics.Rotational.Components.Inertia inertia(J=0.001)
+          annotation (Placement(transformation(extent={{44,-10},{64,10}})));
+        Modelica.Electrical.Analog.Basic.Resistor resistor(R=0.5)
+          annotation (Placement(transformation(extent={{-38,10},{-18,30}})));
+        Modelica.Electrical.Analog.Basic.Inductor inductor(L=0.05)
+          annotation (Placement(transformation(extent={{-6,10},{14,30}})));
+        Modelica.Electrical.Analog.Basic.RotationalEMF emf annotation (Placement(
+              transformation(
+              extent={{-10,-10},{10,10}},
+              rotation=0,
+              origin={22,0})));
+        Modelica.Mechanics.Rotational.Interfaces.Flange_b flange_b annotation (
+            Placement(transformation(extent={{90,-10},{110,10}}),
+              iconTransformation(extent={{90,-10},{110,10}})));
+        Modelica.Electrical.Analog.Interfaces.PositivePin p
+          "Positive electrical pin"
+          annotation (Placement(transformation(extent={{-110,30},{-90,50}})));
+        Modelica.Electrical.Analog.Interfaces.NegativePin n
+          "Negative electrical pin"
+          annotation (Placement(transformation(extent={{-110,-50},{-90,-30}})));
+      equation
+        connect(resistor.n, inductor.p)
+          annotation (Line(points={{-18,20},{-6,20}}, color={0,0,255}));
+        connect(inductor.n, emf.p)
+          annotation (Line(points={{14,20},{22,20},{22,10}}, color={0,0,255}));
+        connect(inertia.flange_a, emf.flange)
+          annotation (Line(points={{44,0},{32,0}}, color={0,0,0}));
+        connect(inertia.flange_b, flange_b)
+          annotation (Line(points={{64,0},{100,0}}, color={0,0,0}));
+        connect(resistor.p, p) annotation (Line(points={{-38,20},{-80,20},{-80,
+                40},{-100,40}}, color={0,0,255}));
+        connect(emf.n, n) annotation (Line(points={{22,-10},{22,-40},{-100,-40}},
+              color={0,0,255}));
+        annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={
+                Rectangle(
+                extent={{-100,60},{100,-60}},
+                lineColor={0,0,0},
+                fillColor={238,46,47},
+                fillPattern=FillPattern.HorizontalCylinder), Polygon(
+                points={{-80,-100},{-42,-60},{38,-60},{80,-100},{-80,-100}},
+                lineColor={0,0,0},
+                fillPattern=FillPattern.HorizontalCylinder,
+                fillColor={0,0,0})}), Diagram(coordinateSystem(
+                preserveAspectRatio=false)));
+      end Machine;
+    end Components;
+
+    package Tests
+      model MachineTest
+        Components.Machine machine
+          annotation (Placement(transformation(extent={{-6,2},{14,22}})));
+        Modelica.Electrical.Analog.Sources.ConstantVoltage constantVoltage
+          annotation (Placement(transformation(
+              extent={{-10,-10},{10,10}},
+              rotation=-90,
+              origin={-66,12})));
+        Modelica.Electrical.Analog.Basic.Ground ground
+          annotation (Placement(transformation(extent={{-76,-48},{-56,-28}})));
+        Modelica.Mechanics.Rotational.Components.Inertia inertia
+          annotation (Placement(transformation(extent={{40,2},{60,22}})));
+      equation
+        connect(constantVoltage.n, ground.p)
+          annotation (Line(points={{-66,2},{-66,-28}}, color={0,0,255}));
+        connect(constantVoltage.p, machine.p) annotation (Line(points={{-66,22},
+                {-26,22},{-26,16},{-6,16}}, color={0,0,255}));
+        connect(machine.n, ground.p) annotation (Line(points={{-6,8},{-36,8},{
+                -36,-14},{-66,-14},{-66,-28}}, color={0,0,255}));
+        connect(machine.flange_b, inertia.flange_a)
+          annotation (Line(points={{14,12},{40,12}}, color={0,0,0}));
+        annotation (
+          Icon(coordinateSystem(preserveAspectRatio=false)),
+          Diagram(coordinateSystem(preserveAspectRatio=false)),
+          experiment(StopTime=10));
+      end MachineTest;
+    end Tests;
+  end Tutorial3;
   annotation (uses(Modelica(version="4.0.0")));
 end MyWork;
