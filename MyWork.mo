@@ -179,8 +179,9 @@ package MyWork "My description"
             Placement(transformation(extent={{90,-10},{110,10}}),
               iconTransformation(extent={{90,-10},{110,10}})));
         Modelica.Electrical.Analog.Interfaces.PositivePin p
-          "Positive electrical pin"
-          annotation (Placement(transformation(extent={{-110,30},{-90,50}})));
+          "Positive electrical pin" annotation (Placement(transformation(extent
+                ={{-110,50},{-90,70}}), iconTransformation(extent={{-110,50},{
+                  -90,70}})));
         Modelica.Electrical.Analog.Interfaces.NegativePin n
           "Negative electrical pin"
           annotation (Placement(transformation(extent={{-110,-50},{-90,-30}})));
@@ -194,25 +195,20 @@ package MyWork "My description"
         connect(inertia.flange_b, flange_b)
           annotation (Line(points={{64,0},{100,0}}, color={0,0,0}));
         connect(resistor.p, p) annotation (Line(points={{-38,20},{-80,20},{-80,
-                40},{-100,40}}, color={0,0,255}));
+                60},{-100,60}}, color={0,0,255}));
         connect(emf.n, n) annotation (Line(points={{22,-10},{22,-40},{-100,-40}},
               color={0,0,255}));
-        annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics={
-                Rectangle(
-                extent={{-100,60},{100,-60}},
-                lineColor={0,0,0},
-                fillColor={238,46,47},
-                fillPattern=FillPattern.HorizontalCylinder), Polygon(
-                points={{-80,-100},{-42,-60},{38,-60},{80,-100},{-80,-100}},
-                lineColor={0,0,0},
-                fillPattern=FillPattern.HorizontalCylinder,
-                fillColor={0,0,0})}), Diagram(coordinateSystem(
+        annotation (Icon(coordinateSystem(preserveAspectRatio=false), graphics
+              ={Bitmap(extent={{-86,80},{78,-70}}, fileName="")}),
+                                      Diagram(coordinateSystem(
                 preserveAspectRatio=false)));
       end Machine;
     end Components;
 
     package Tests
+      extends Modelica.Icons.ExamplesPackage;
       model MachineTest
+        extends Modelica.Icons.Example;
         Components.Machine machine
           annotation (Placement(transformation(extent={{-6,2},{14,22}})));
         Modelica.Electrical.Analog.Sources.ConstantVoltage constantVoltage
